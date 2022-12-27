@@ -3,8 +3,8 @@ def get_secret_key() -> str:
 
     secret_key = environ.get("MyIMGSecretKey", None)
     if not secret_key:
-        from secrets import token_bytes
         from base64 import b64encode
+        from secrets import token_bytes
 
         secret_key = b64encode(token_bytes(32)).decode()
     return secret_key

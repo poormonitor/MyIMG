@@ -1,0 +1,25 @@
+diff --git a/node_modules/tailwindcss/src/css/preflight.css b/node_modules/tailwindcss/src/css/preflight.css
+index 3029044..c309c95 100644
+--- a/node_modules/tailwindcss/src/css/preflight.css
++++ b/node_modules/tailwindcss/src/css/preflight.css
+@@ -178,20 +178,6 @@ select {
+   text-transform: none;
+ }
+ 
+-/*
+-1. Correct the inability to style clickable types in iOS and Safari.
+-2. Remove default button styles.
+-*/
+-
+-button,
+-[type='button'],
+-[type='reset'],
+-[type='submit'] {
+-  -webkit-appearance: button; /* 1 */
+-  background-color: transparent; /* 2 */
+-  background-image: none; /* 2 */
+-}
+-
+ /*
+ Use the modern Firefox focus style for all focusable elements.
+ */

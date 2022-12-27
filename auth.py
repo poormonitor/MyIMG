@@ -1,18 +1,19 @@
-from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordBearer
-from fastapi import Depends, HTTPException
-from typing import Optional
 from datetime import timedelta
-from jose import JWTError, jwt
-from config import get_secret_key
+from typing import Optional
 
+from fastapi import Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
+from config import get_secret_key
 
 SECRET_KEY = get_secret_key()
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/token")
 
 
 def create_access_token(

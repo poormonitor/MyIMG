@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 
-from routes import init_app_routes
-
+from meta import meta_description, meta_tags
 from models import Base, engine
-from meta import meta_tags, meta_description
-
+from routes import init_app_routes
 
 app = FastAPI(
     title="MyIMG", version="0.1.0", openapi_tags=meta_tags, description=meta_description
