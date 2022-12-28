@@ -17,11 +17,6 @@ class requestUploadReceipt(BaseModel):
     pid: str = Field(description="The UUID of the image to set.")
 
 
-class requestModifyName(BaseModel):
-    pid: str = Field(description="The UUID of the image to set.")
-    name: str = Field(description="The new name for the image.")
-
-
 class requestUploadPost(BaseModel):
     file: UploadFile = Field(description="File to upload.")
     name: str = Field(description="The name of the image. Useful when sorting.")
@@ -120,25 +115,6 @@ def receipt(
         raise HTTPException(status_code=403, detail="The image not belongs to you.")
 
     pic.receipt = True
-    db.commit()
-
-    return {"result": "success"}
-
-
-@router.post("/name")
-def name(
-    data: requestModifyName,
-    db: Session = Depends(get_db),
-    uid: str = Depends(get_current_user),
-):
-    pic = db.query(Pic).filter_by(pid=data.pid).first()
-
-    if not pic:
-        raise HTTPException(status_code=400, detail="Image not found.")
-    if pic.owner_id != uid:
-        raise HTTPException(status_code=403, detail="The image not belongs to you.")
-
-    pic.name = data.name
     db.commit()
 
     return {"result": "success"}

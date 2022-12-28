@@ -7,6 +7,10 @@ meta_tags = [
         "name": "user",
         "description": "Provide services like registering, login, changing password and managing images uploaded.",
     },
+    {
+        "name": "manage",
+        "description": "Allow user to manage his/her images."
+    }
 ]
 
 

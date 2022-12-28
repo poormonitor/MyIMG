@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -13,9 +12,14 @@ from s3 import delete_from_s3, get_final_url
 router = APIRouter()
 
 
+class requestModifyName(BaseModel):
+    pid: str = Field(description="The UUID of the image to set.")
+    name: str = Field(description="The new name for the image.")
+
+
 class ImageItem(BaseModel):
     pid: str = Field(description="The UUID of the image.")
-    name: str= Field(description="The name of the image. Used to search.")
+    name: str = Field(description="The name of the image. Used to search.")
     url: str = Field(description="The URL to request.")
     indate: str = Field(description="The time of creating the image.")
     ext: str = Field(description="The extension of the image.")
@@ -31,7 +35,7 @@ class requestDeleteImage(BaseModel):
     pid: str = Field(description="The UUID of the image to delete.")
 
 
-@router.get("/my", response_model=responseMyImage, tags=["user"])
+@router.get("/my", response_model=responseMyImage, tags=["manage"])
 def my(uid: str = Depends(get_current_user), db: Session = Depends(get_db)):
     db.query(Pic).filter_by(owner_id=uid).filter_by(receipt=False).delete()
     db.commit()
@@ -52,7 +56,7 @@ def my(uid: str = Depends(get_current_user), db: Session = Depends(get_db)):
     return responseMyImage(list=rs)
 
 
-@router.post("/delete")
+@router.post("/delete", tags=["manage"])
 def delete(
     data: requestDeleteImage,
     uid: str = Depends(get_current_user),
@@ -69,6 +73,25 @@ def delete(
     delete_from_s3(pic.ext, pic.pid)
 
     db.delete(pic)
+    db.commit()
+
+    return {"result": "success"}
+
+
+@router.post("/name", tags=["manage"])
+def name(
+    data: requestModifyName,
+    db: Session = Depends(get_db),
+    uid: str = Depends(get_current_user),
+):
+    pic = db.query(Pic).filter_by(pid=data.pid).first()
+
+    if not pic:
+        raise HTTPException(status_code=400, detail="Image not found.")
+    if pic.owner_id != uid:
+        raise HTTPException(status_code=403, detail="The image not belongs to you.")
+
+    pic.name = data.name
     db.commit()
 
     return {"result": "success"}
