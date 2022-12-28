@@ -15,6 +15,7 @@ router = APIRouter()
 
 class ImageItem(BaseModel):
     pid: str = Field(description="The UUID of the image.")
+    name: str= Field(description="The name of the image. Used to search.")
     url: str = Field(description="The URL to request.")
     indate: str = Field(description="The time of creating the image.")
     ext: str = Field(description="The extension of the image.")
@@ -41,6 +42,7 @@ def my(uid: str = Depends(get_current_user), db: Session = Depends(get_db)):
         ImageItem(
             pid=i.pid,
             url=get_final_url(i.pid, i.ext),
+            name=i.name,
             ext=i.ext,
             indate=i.indate.strftime("%Y-%m-%d %H:%M:%S"),
         )

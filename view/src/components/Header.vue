@@ -1,12 +1,16 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, computed } from "vue"
+import { ref, onMounted } from "vue"
 import PasswordSetter from './PasswordSetter.vue';
 import { logOut } from '../func';
 
 const router = useRouter()
-const currentUser = computed(() => sessionStorage.getItem("email_myimg"))
+const currentUser = ref(null)
 const passwdSetVisible = ref(false)
+
+onMounted(() => {
+    currentUser.value = sessionStorage.getItem("email_myimg")
+})
 
 const selectHandler = (key) => {
     switch (key) {

@@ -14,11 +14,17 @@ router = APIRouter()
 
 
 class requestUploadReceipt(BaseModel):
-    pid: str = Field(description="The UUID of the image to set be done.")
+    pid: str = Field(description="The UUID of the image to set.")
+
+
+class requestModifyName(BaseModel):
+    pid: str = Field(description="The UUID of the image to set.")
+    name: str = Field(description="The new name for the image.")
 
 
 class requestUploadPost(BaseModel):
     file: UploadFile = Field(description="File to upload.")
+    name: str = Field(description="The name of the image. Useful when sorting.")
 
 
 class responseUploadPost(BaseModel):
@@ -28,7 +34,9 @@ class responseUploadPost(BaseModel):
 
 class responseUrlUpload(BaseModel):
     url: str = Field(description="The URL to perform GET picture.")
-    put: str = Field(description="The URL to perform POST request to. Use 'file' for form upload.")
+    put: str = Field(
+        description="The URL to perform POST request to. Use 'file' for form upload."
+    )
     pid: str = Field(description="The UUID for the picture. Useful so store it.")
     key: str = Field(description="The key for S3 to write.")
 
@@ -37,6 +45,7 @@ class requestUrlUpload(BaseModel):
     ext: str = Field(
         description="The extension of the picture you want to upload.", example="png"
     )
+    name: str = Field(description="The name of the image. Useful when sorting.")
 
     @validator("ext")
     def ext_in_range(cls, ext):
@@ -60,6 +69,7 @@ def upload_url(
     new_pic = Pic(
         pid=pid,
         ext=data.ext,
+        name=data.name,
         ip=request.client.host,
         owner_id=uid,
     )
@@ -79,7 +89,14 @@ def upload_post(
     ext = os.path.splitext(data.file.filename)[1]
     key = pid + "." + ext
 
-    pic = Pic(pid=pid, owner_id=uid, ext=ext, ip=request.client.host, receipt=True)
+    pic = Pic(
+        pid=pid,
+        owner_id=uid,
+        ext=ext,
+        ip=request.client.host,
+        receipt=True,
+        name=data.name,
+    )
     db.add(pic)
     db.commit()
 
@@ -103,6 +120,25 @@ def receipt(
         raise HTTPException(status_code=403, detail="The image not belongs to you.")
 
     pic.receipt = True
+    db.commit()
+
+    return {"result": "success"}
+
+
+@router.post("/name")
+def name(
+    data: requestModifyName,
+    db: Session = Depends(get_db),
+    uid: str = Depends(get_current_user),
+):
+    pic = db.query(Pic).filter_by(pid=data.pid).first()
+
+    if not pic:
+        raise HTTPException(status_code=400, detail="Image not found.")
+    if pic.owner_id != uid:
+        raise HTTPException(status_code=403, detail="The image not belongs to you.")
+
+    pic.name = data.name
     db.commit()
 
     return {"result": "success"}

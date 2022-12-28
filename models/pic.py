@@ -9,6 +9,7 @@ class Pic(Base):
     __tablename__ = "pic"
 
     pid = Column(String(64), primary_key=True, index=True)
+    name = Column(String(64), index=True)
     indate = Column(DateTime, default=func.now())
     ip = Column(String(256))
     ext = Column(String(5), index=True)
