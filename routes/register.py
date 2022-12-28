@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from auth import get_current_user, hash_passwd, verify_passwd
 from models import get_db
 from models.user import User
+from config import allow_register
 
 router = APIRouter()
 
@@ -30,6 +31,9 @@ class requestUserPasswd(BaseModel):
 
 @router.post("/register", tags=["user"])
 def register(data: requestUserRegister, db: Session = Depends(get_db)):
+    if not allow_register():
+        raise HTTPException(status_code=400, detail="Registering is not allowed now.")
+
     current = db.query(User).filter_by(email=data.email).count()
     if current > 0:
         raise HTTPException(status_code=400, detail="The email exists.")
@@ -48,7 +52,7 @@ def passwd(
     uid: str = Depends(get_current_user),
 ):
     user = db.query(User).filter_by(uid=uid).first()
-    
+
     if not verify_passwd(data.old, user.passwd):
         raise HTTPException(status_code=400, detail="The origin password is incorrect.")
 

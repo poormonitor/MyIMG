@@ -17,3 +17,12 @@ def get_config() -> dict:
     with open(os.path.join(os.path.dirname(__file__), "config.json")) as fp:
         json_object = json.load(fp)
         return json_object
+
+
+def allow_register() -> bool:
+    import json
+    import os
+
+    with open(os.path.join(os.path.dirname(__file__), "config.json")) as fp:
+        json_object = json.load(fp)
+        return json_object["REGISTER"]
