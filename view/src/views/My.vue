@@ -105,7 +105,7 @@ const setNewName = (pid, name) => {
         No images found.
     </p>
     <div
-        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 mx-6 md:mx-12 lg:mx-16 mt-6 md:mt-8 lg:mt-10"
+        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-8 gap-y-4  mx-6 md:mx-12 lg:mx-16 mt-6 md:mt-8 lg:mt-10"
         v-else
     >
         <div
@@ -116,7 +116,7 @@ const setNewName = (pid, name) => {
             <el-image
                 fit="contain"
                 :src="item.url"
-                class="flex-none self-center h-24 mr-2"
+                class="flex-none self-center h-24 w-16 mr-2"
                 lazy
             />
             <el-popover
@@ -132,8 +132,8 @@ const setNewName = (pid, name) => {
                         class="flex-1 m-0.5 md:m-2 p-3 break-all"
                         @click="copyToClipboard(getURL(item.url, item.pid))"
                     >
-                        <p class="text-xs text-indigo-900">{{ item.pid }}</p>
-                        <p class="text-xs font-bold text-blue-800">
+                        <p class="text-xs text-sky-800">{{ item.pid }}</p>
+                        <p class="text-xs font-bold text-sky-800">
                             {{ item.indate }}
                         </p>
                         <p

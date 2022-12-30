@@ -37,7 +37,7 @@ const sendReceipt = (_, uploadFile) => {
     copyToClipboard(getURL(uploadFile.raw.url, uploadFile.name));
     ElNotification({
         title: "Success",
-        message: `The URL of ${uploadFile.name} has been copied!`,
+        message: "The URL of the image has been copied!",
         type: "success",
     });
 };
@@ -62,7 +62,7 @@ const getURL = (url, name) => {
         <el-upload
             drag
             multiple
-            class="mt-4"
+            class="mt-4 mb-12"
             :before-upload="setURL"
             :on-success="sendReceipt"
             :action="uploadURL"
@@ -79,7 +79,7 @@ const getURL = (url, name) => {
                     Allowed extensions: xbm, tif, pjp, svgz, jpg, jpeg, ico,
                     tiff, gif, svg, jfif, webp, png, bmp, pjpeg, avif.
                 </div>
-                <div class="flex mt-4 items-center justify-center">
+                <div class="flex pt-4 pb-4 items-center justify-center">
                     <span class="text-xs text-sky-600 mr-2">Mode of Copy</span>
                     <el-radio-group v-model="copyProp" size="small">
                         <el-radio-button
@@ -93,7 +93,7 @@ const getURL = (url, name) => {
                 </div>
             </template>
             <template #file="{ file }">
-                <img :src="file.url" class="h-24 m-2" />
+                <img :src="file.url" class="h-24 m-2 border" />
                 <el-popover
                     placement="top-start"
                     title="Copied!"
@@ -109,11 +109,11 @@ const getURL = (url, name) => {
                                 copyToClipboard(getURL(file.raw.url, file.name))
                             "
                         >
-                            <p class="text-xs truncate text-zinc-700">
+                            <p class="text-xs truncate text-sky-800">
                                 {{ file.raw.pid }}
                             </p>
                             <p
-                                class="text-xs truncate font-bold text-indigo-700"
+                                class="text-xs truncate font-bold text-sky-800"
                             >
                                 {{ file.name }}
                             </p>
