@@ -40,7 +40,13 @@ def my(uid: str = Depends(get_current_user), db: Session = Depends(get_db)):
     db.query(Pic).filter_by(owner_id=uid).filter_by(receipt=False).delete()
     db.commit()
 
-    pics = db.query(Pic).filter_by(owner_id=uid).filter_by(receipt=True).all()
+    pics = (
+        db.query(Pic)
+        .filter_by(owner_id=uid)
+        .filter_by(receipt=True)
+        .order_by(Pic.indate.desc())
+        .all()
+    )
 
     rs = [
         ImageItem(

@@ -30,7 +30,7 @@ instance.interceptors.response.use(
             ElMessage.error("Network error.");
         } else if (error.response.status == 401) {
             logOut();
-            ElMessage.error("Please login first.");
+            ElMessage.error("Login expires. Please login first.");
             setTimeout(() => {
                 router.push({ name: "login" });
                 location.reload();

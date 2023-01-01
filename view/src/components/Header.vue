@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
+import { ArrowDown } from "@element-plus/icons-vue";
 import PasswordSetter from "./PasswordSetter.vue";
 import { logOut } from "../func";
 
@@ -14,13 +15,16 @@ onMounted(() => {
 
 const selectHandler = (key) => {
     switch (key) {
-        case "1-1":
+        case "1":
             router.push({ name: "my" });
             break;
-        case "1-2":
+        case "2":
             passwdSetVisible.value = true;
             break;
-        case "1-3":
+        case "3":
+            router.push({ name: "config" });
+            break;
+        case "4":
             logOut();
             router.push({ name: "login" });
             break;
@@ -35,7 +39,6 @@ const selectHandler = (key) => {
         default-active="1"
         mode="horizontal"
         :ellipsis="false"
-        @select="selectHandler"
     >
         <div class="menu-logo flex items-center mx-4 lg:mx-8">
             <router-link
@@ -46,12 +49,32 @@ const selectHandler = (key) => {
             </router-link>
         </div>
         <div class="flex-grow" />
-        <el-sub-menu index="1" v-if="currentUser">
-            <template #title> {{ currentUser }} </template>
-            <el-menu-item index="1-1">My Images</el-menu-item>
-            <el-menu-item index="1-2">Change Password</el-menu-item>
-            <el-menu-item index="1-3">Log Out</el-menu-item>
-        </el-sub-menu>
+        <el-dropdown
+            class="self-center"
+            @command="selectHandler"
+            v-if="currentUser"
+        >
+            <span
+                class="transition hover:text-blue-500 mr-4 flex items-center gap-x-1"
+            >
+                {{ currentUser }}
+                <el-icon><arrow-down /></el-icon>
+            </span>
+            <template #dropdown>
+                <el-dropdown-menu>
+                    <el-dropdown-item command="1">My Images</el-dropdown-item>
+                    <el-dropdown-item command="2">
+                        Change Password
+                    </el-dropdown-item>
+                    <el-dropdown-item command="3" divided>
+                        Admin
+                    </el-dropdown-item>
+                    <el-dropdown-item command="4" divided
+                        >Log Out</el-dropdown-item
+                    >
+                </el-dropdown-menu>
+            </template>
+        </el-dropdown>
     </el-menu>
 </template>
 

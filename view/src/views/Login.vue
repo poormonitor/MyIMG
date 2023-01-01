@@ -47,6 +47,7 @@ const submitForm = () => {
                 "access_token_myimg",
                 response.data.access_token
             );
+            sessionStorage.setItem("admin_myimg", response.data.admin);
             sessionStorage.setItem("email_myimg", loginForm.email);
             if (rememberMe.value) {
                 localStorage.setItem(

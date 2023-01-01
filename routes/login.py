@@ -30,6 +30,7 @@ class responseUserToken(BaseModel):
         description="JWT Token for authorization. Store it and bear it when requesting."
     )
     token_type: str = "bearer"
+    admin: bool = Field(description="User's permission.")
 
 
 @router.post("/login", response_model=responseUserToken, tags=["user"])
@@ -40,9 +41,9 @@ def login(data: requestUserLogin, db: Session = Depends(get_db)):
     if not verify_passwd(data.password, user.passwd):
         raise HTTPException(status_code=400, detail="Password incorrect.")
 
-    token = create_access_token(user.uid, timedelta(seconds=data.expires))
+    token = create_access_token(user.uid, timedelta(seconds=data.expires), admin=user.admin)
 
-    return responseUserToken(access_token=token)
+    return responseUserToken(access_token=token, admin=user.admin)
 
 
 @router.post("/token", response_model=responseUserToken, tags=["user"])
@@ -53,6 +54,6 @@ def token(data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
     if not verify_passwd(sha256(data.password.encode()).hexdigest(), user.passwd):
         raise HTTPException(status_code=400, detail="Password incorrect.")
 
-    token = create_access_token(user.uid, timedelta(seconds=3600))
+    token = create_access_token(user.uid, timedelta(seconds=3600), admin=user.admin)
 
-    return responseUserToken(access_token=token)
+    return responseUserToken(access_token=token, admin=user.admin)

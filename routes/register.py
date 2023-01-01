@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from auth import get_current_user, hash_passwd, verify_passwd
 from models import get_db
 from models.user import User
-from config import allow_register
+from config import Settings, get_config
 
 router = APIRouter()
 
@@ -30,8 +30,8 @@ class requestUserPasswd(BaseModel):
 
 
 @router.post("/register", tags=["user"])
-def register(data: requestUserRegister, db: Session = Depends(get_db)):
-    if not allow_register():
+def register(data: requestUserRegister, db: Session = Depends(get_db), settings: Settings = Depends(get_config)):
+    if not settings.REGISTER:
         raise HTTPException(status_code=400, detail="Registering is not allowed now.")
 
     current = db.query(User).filter_by(email=data.email).count()

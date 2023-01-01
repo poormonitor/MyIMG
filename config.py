@@ -1,3 +1,25 @@
+from functools import lru_cache
+
+from pydantic import BaseSettings
+
+
+class Settings(BaseSettings):
+    S3_ENDPOINT: str = ""
+    S3_SECRET_ID: str = ""
+    S3_SECRET_KEY: str = ""
+    S3_REGION: str = ""
+    S3_BUCKET: str = ""
+    S3_PREFIX: str = ""
+    S3_DOMAIN_PREFIX: str = ""
+    REGISTER: int = 1
+
+    class Config:
+        env_file = ".env"
+
+    def __getitem__(self, item: str):
+        return getattr(self, item)
+
+
 def get_secret_key() -> str:
     from os import environ
 
@@ -10,19 +32,6 @@ def get_secret_key() -> str:
     return secret_key
 
 
-def get_config() -> dict:
-    import json
-    import os
-
-    with open(os.path.join(os.path.dirname(__file__), "config.json")) as fp:
-        json_object = json.load(fp)
-        return json_object
-
-
-def allow_register() -> bool:
-    import json
-    import os
-
-    with open(os.path.join(os.path.dirname(__file__), "config.json")) as fp:
-        json_object = json.load(fp)
-        return json_object["REGISTER"]
+@lru_cache()
+def get_config() -> BaseSettings:
+    return Settings()

@@ -1,6 +1,6 @@
 <script setup>
 import { UploadFilled } from "@element-plus/icons-vue";
-import { ElNotification } from "element-plus";
+import { ElMessage } from "element-plus";
 import axios from "../axios";
 import { ref, reactive } from "vue";
 import { copyToClipboard } from "../func";
@@ -35,8 +35,7 @@ const sendReceipt = (_, uploadFile) => {
         pid: uploadFile.raw.pid,
     });
     copyToClipboard(getURL(uploadFile.raw.url, uploadFile.name));
-    ElNotification({
-        title: "Success",
+    ElMessage({
         message: "The URL of the image has been copied!",
         type: "success",
     });

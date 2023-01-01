@@ -1,5 +1,4 @@
 from datetime import timedelta
-from typing import Optional
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -14,6 +13,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/token")
+credentials_exception = HTTPException(
+    status_code=401,
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
+)
 
 
 def create_access_token(
@@ -30,11 +34,6 @@ def create_access_token(
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=401,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
         uid: str = payload.get("uid")
@@ -43,6 +42,20 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise credentials_exception
     return uid
+
+
+async def admin_required(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        uid: str = payload.get("uid")
+        if not uid:
+            raise credentials_exception
+        admin = payload.get("admin", False)
+    except JWTError:
+        raise credentials_exception
+    if not admin:
+        raise HTTPException(status_code=401, detail="Admin required.")
+    return True
 
 
 def hash_passwd(passwd: str) -> str:

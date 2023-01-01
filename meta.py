@@ -11,6 +11,11 @@ meta_tags = [
         "name": "manage",
         "description": "Allow user to manage his/her images."
     }
+    ,
+    {
+        "name": "admin",
+        "description": "Administrator's management functions."
+    }
 ]
 
 

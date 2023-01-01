@@ -17,19 +17,17 @@ npm run build
 
 ## Config
 
-Touch `config.json` in the main directory, and write the following information.
+Touch `.env` in the main directory, and write the following information.
 
-```json
-{
-    "S3_ENDPOINT": "",
-    "S3_SECRET_ID": "",
-    "S3_SECRET_KEY": "",
-    "S3_REGION": "",
-    "S3_BUCKET": "",
-    "S3_PREFIX": "",
-    "S3_DOMAIN_PREFIX": "",
-    "REGISTER": true
-}
+```dotenv
+S3_ENDPOINT="s3.example.com"
+S3_SECRET_ID=""
+S3_SECRET_KEY=""
+S3_REGION="ap-shanghai"
+S3_BUCKET=""
+S3_PREFIX="img"
+S3_DOMAIN_PREFIX="https://assets.example.com"
+REGISTER=1
 ```
 
 ## Run

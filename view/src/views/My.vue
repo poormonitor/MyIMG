@@ -31,6 +31,10 @@ const deleteImage = (pid) => {
                     (item) => item.pid != pid
                 );
                 showImages.value = myImages.value;
+                ElMessage({
+                    type: "success",
+                    message: `The image has been deleted.`,
+                });
             }
         });
 };
@@ -71,32 +75,32 @@ const setNewName = (pid, name) => {
 </script>
 
 <template>
-    <div class="ml-8 lg:ml-16 mt-8 lg:mt-12">
+    <div class="mx-8 lg:mx-16 mt-8 lg:mt-12">
         <div class="flex items-center">
             <span class="font-bold text-3xl md:text-4xl">My Images</span>
         </div>
-        <div class="flex justify-center mt-3">
-            <el-input
-                v-model="searchInput"
-                size="large"
-                class="w-64 lg:w-96"
-                placeholder="Search"
-                :prefix-icon="Search"
-                @change="SearchPic"
-            />
-        </div>
-        <div class="flex mt-4 items-center justify-center">
-            <span class="text-sm text-sky-600 mr-2">Mode of Copy</span>
-            <el-radio-group v-model="copyProp" size="small">
-                <el-radio-button
-                    v-for="i in copyOptions.length"
-                    :key="i - 1"
-                    :label="i - 1"
-                >
-                    {{ copyOptions[i - 1] }}
-                </el-radio-button>
-            </el-radio-group>
-        </div>
+    </div>
+    <div class="flex justify-center mt-3">
+        <el-input
+            v-model="searchInput"
+            size="large"
+            class="w-64 lg:w-96"
+            placeholder="Search"
+            :prefix-icon="Search"
+            @change="SearchPic"
+        />
+    </div>
+    <div class="flex mt-4 items-center justify-center">
+        <span class="text-sm text-sky-600 mr-2">Mode of Copy</span>
+        <el-radio-group v-model="copyProp" size="small">
+            <el-radio-button
+                v-for="i in copyOptions.length"
+                :key="i - 1"
+                :label="i - 1"
+            >
+                {{ copyOptions[i - 1] }}
+            </el-radio-button>
+        </el-radio-group>
     </div>
     <p
         class="text-center text-zinc-400 text-xl md:text-3xl mt-12"
@@ -105,12 +109,12 @@ const setNewName = (pid, name) => {
         No images found.
     </p>
     <div
-        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-8 gap-y-4  mx-6 md:mx-12 lg:mx-16 mt-6 md:mt-8 lg:mt-10"
+        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-8 gap-y-4 mx-6 md:mx-12 lg:mx-16 mt-6 md:mt-8 lg:mt-10"
         v-else
     >
         <div
             v-for="item in showImages"
-            class="pic-card relative flex pl-6 py-1 border hover:bg-slate-100 transition rounded-2xl cursor-pointer"
+            class="pic-card relative flex pl-6 py-1 border hover:bg-slate-100 hover:shadow-sm transition rounded-2xl cursor-pointer"
             :key="item.pid"
         >
             <el-image
@@ -150,6 +154,7 @@ const setNewName = (pid, name) => {
             </el-popover>
             <div class="absolute right-3 top-3 delete-button transition-all">
                 <el-popconfirm
+                    width="240"
                     title="Are you sure to delete this?"
                     @confirm="deleteImage(item.pid)"
                 >
