@@ -77,7 +77,6 @@ router.beforeEach((to, from) => {
         token = local_token;
     }
     if (to.meta.requiresAuth && !token) {
-        ElMessage.error("Please login first.");
         return {
             name: "login",
         };
