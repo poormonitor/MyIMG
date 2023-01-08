@@ -35,7 +35,7 @@ const selectHandler = (key) => {
 <template>
     <PasswordSetter v-model="passwdSetVisible" />
     <el-menu
-        class="el-menu-demo"
+        class="el-menu-demo h-16"
         default-active="1"
         mode="horizontal"
         :ellipsis="false"

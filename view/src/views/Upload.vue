@@ -56,7 +56,7 @@ const getURL = (url, name) => {
 </script>
 
 <template>
-    <div class="mx-auto w-2/3 md:w-1/2 lg:w-1/3">
+    <div class="mx-8 md:mx-auto md:w-1/2 lg:w-1/3">
         <p class="font-bold text-2xl mt-[8vh] mb-6">Upload Images</p>
         <el-upload
             drag
@@ -78,7 +78,9 @@ const getURL = (url, name) => {
                     Allowed extensions: xbm, tif, pjp, svgz, jpg, jpeg, ico,
                     tiff, gif, svg, jfif, webp, png, bmp, pjpeg, avif.
                 </div>
-                <div class="flex pt-4 pb-4 items-center justify-center">
+                <div
+                    class="flex flex-col md:flex-row gap-y-2 pt-4 pb-4 items-center justify-center"
+                >
                     <span class="text-xs text-sky-600 mr-2">Mode of Copy</span>
                     <el-radio-group v-model="copyProp" size="small">
                         <el-radio-button
@@ -111,9 +113,7 @@ const getURL = (url, name) => {
                             <p class="text-xs truncate text-sky-800">
                                 {{ file.raw.pid }}
                             </p>
-                            <p
-                                class="text-xs truncate font-bold text-sky-800"
-                            >
+                            <p class="text-xs truncate font-bold text-sky-800">
                                 {{ file.name }}
                             </p>
                             <p class="h-10 mt-1 break-all overflow-y-hidden">

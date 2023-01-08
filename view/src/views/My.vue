@@ -90,7 +90,7 @@ const setNewName = (pid, name) => {
             @change="SearchPic"
         />
     </div>
-    <div class="flex mt-4 items-center justify-center">
+    <div class="flex flex-col md:flex-row gap-y-2 mt-4 items-center justify-center">
         <span class="text-sm text-sky-600 mr-2">Mode of Copy</span>
         <el-radio-group v-model="copyProp" size="small">
             <el-radio-button
