@@ -1,9 +1,12 @@
 from functools import lru_cache
 
 from pydantic import BaseSettings
+import codecs
+import os
 
 
 class Settings(BaseSettings):
+    MYIMG_SECRET_KEY: str = codecs.encode(os.urandom(32), "hex").decode()
     S3_ENDPOINT: str = ""
     S3_SECRET_ID: str = ""
     S3_SECRET_KEY: str = ""
@@ -21,15 +24,7 @@ class Settings(BaseSettings):
 
 
 def get_secret_key() -> str:
-    from os import environ
-
-    secret_key = environ.get("MyIMGSecretKey", None)
-    if not secret_key:
-        from base64 import b64encode
-        from secrets import token_bytes
-
-        secret_key = b64encode(token_bytes(32)).decode()
-    return secret_key
+    return get_config("MYEXAM_SECRET_KEY")
 
 
 @lru_cache()
