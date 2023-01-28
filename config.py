@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
 
 def get_secret_key() -> str:
-    return get_config("MYEXAM_SECRET_KEY")
+    return get_config()["MYIMG_SECRET_KEY"]
 
 
 @lru_cache()
