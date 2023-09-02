@@ -6,6 +6,7 @@ import os
 
 
 class Settings(BaseSettings):
+    DB_PATH: str = "sqlite:///data.sqlite"
     MYIMG_SECRET_KEY: str = codecs.encode(os.urandom(32), "hex").decode()
     S3_ENDPOINT: str = ""
     S3_SECRET_ID: str = ""
