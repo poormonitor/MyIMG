@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 from config import get_config
 
-DATABASE_URL: str = get_config("DB_PATH")
+DATABASE_URL: str = get_config()["DB_PATH"]
 
 c_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 e_args = {"pool_recycle": 3600} if "mysql" in DATABASE_URL else {}
