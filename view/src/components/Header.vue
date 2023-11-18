@@ -1,17 +1,20 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
+import { ref, onMounted } from "vue";
 import PasswordSetter from "./PasswordSetter.vue";
-import { logOut } from "../func";
+import { logOut, decodeJWT } from "../func";
 
 const router = useRouter();
-const currentUser = ref(null);
 const passwdSetVisible = ref(false);
+const payload = ref({});
 
-onMounted(() => {
-    currentUser.value = sessionStorage.getItem("email_myimg");
-});
+const updateUser = () => {
+    const token = sessionStorage.getItem("access_token_myimg");
+    payload.value = decodeJWT(token);
+};
+
+onMounted(updateUser);
 
 const selectHandler = (key) => {
     switch (key) {
@@ -52,12 +55,12 @@ const selectHandler = (key) => {
         <el-dropdown
             class="self-center"
             @command="selectHandler"
-            v-if="currentUser"
+            v-if="payload.email"
         >
             <span
                 class="transition hover:text-blue-500 mr-4 flex items-center gap-x-1"
             >
-                {{ currentUser }}
+                {{ payload.email }}
                 <el-icon><arrow-down /></el-icon>
             </span>
             <template #dropdown>
@@ -66,7 +69,7 @@ const selectHandler = (key) => {
                     <el-dropdown-item command="2">
                         Change Password
                     </el-dropdown-item>
-                    <el-dropdown-item command="3" divided>
+                    <el-dropdown-item command="3" divided v-if="payload.admin">
                         Admin
                     </el-dropdown-item>
                     <el-dropdown-item command="4" divided

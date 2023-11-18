@@ -9,19 +9,20 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "vue": "^3.2.45",
-    "vue-router": "^4.1.6",
     "@element-plus/icons-vue": "^2.0.10",
-    "element-plus": "^2.2.27",
+    "axios": "^1.2.1",
     "crypto-js": "^4.1.1",
-    "axios": "^1.2.1"
+    "element-plus": "^2.2.27",
+    "mime": "^3.0.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.13",
-    "tailwindcss": "^3.2.4",
-    "postcss": "^8.4.20",
     "patch-package": "^6.5.0",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4",
     "unplugin-auto-import": "^0.12.1",
     "unplugin-vue-components": "^0.22.12",
     "vite": "^4.0.0"

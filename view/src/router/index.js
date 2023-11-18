@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import { decodeJWT } from "../func";
 import { ElMessage } from "element-plus";
 
 const router = createRouter({
@@ -72,11 +73,13 @@ router.beforeEach((to, from) => {
 
     let token = sessionStorage.getItem("access_token_myimg");
     let local_token = localStorage.getItem("access_token_myimg");
-    let admin = JSON.parse(sessionStorage.getItem("admin_myimg"));
 
     if (!token && local_token) {
         sessionStorage.setItem("access_token_myimg", local_token);
+        token = local_token;
     }
+
+    let admin = token ? decodeJWT(token).admin : false;
 
     if (to.meta.requiresAuth && !token) {
         return {

@@ -1,7 +1,6 @@
 const logOut = () => {
     localStorage.removeItem("access_token_myimg");
     sessionStorage.removeItem("access_token_myimg");
-    sessionStorage.removeItem("email_myimg");
 };
 
 const copyToClipboard = (text) => {
@@ -19,4 +18,14 @@ const copyToClipboard = (text) => {
     }
 };
 
-export { logOut, copyToClipboard };
+const decodeJWT = (token) => {
+    if (!token) return {}
+
+    const [header, payload, signature] = token.split('.');
+    const decodedPayload = atob(payload);
+    const jsonPayload = JSON.parse(decodedPayload);
+
+    return jsonPayload;
+}
+
+export { logOut, copyToClipboard, decodeJWT };

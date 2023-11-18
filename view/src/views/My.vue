@@ -109,7 +109,7 @@ const setNewName = (pid, name) => {
         No images found.
     </p>
     <div
-        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-8 gap-y-4 mx-6 md:mx-12 lg:mx-16 mt-6 md:mt-8 lg:mt-10"
+        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-4 mx-6 md:mx-12 lg:mx-16 py-6 md:py-8 lg:py-10"
         v-else
     >
         <div
