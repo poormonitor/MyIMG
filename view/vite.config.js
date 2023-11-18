@@ -34,7 +34,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vue: ["vue", "vue-router"],
-          icons: ["@vicons/ionicons5"],
         },
         chunkFileNames: (chunkInfo) => {
           if (chunkInfo.moduleIds[0].includes("node_modules")) {
