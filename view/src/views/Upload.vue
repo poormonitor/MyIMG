@@ -111,7 +111,7 @@ onMounted(() => {
         <el-upload
             drag
             multiple
-            class="mt-4 mb-12"
+            class="pt-4 pb-12"
             :before-upload="setURL"
             :on-success="sendReceipt"
             :action="uploadURL"
