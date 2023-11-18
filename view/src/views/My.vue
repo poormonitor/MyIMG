@@ -81,16 +81,19 @@ const setNewName = (pid, name) => {
         </div>
     </div>
     <div class="flex justify-center mt-3">
-        <el-input
-            v-model="searchInput"
-            size="large"
-            class="w-64 lg:w-96"
-            placeholder="Search"
-            :prefix-icon="Search"
-            @change="SearchPic"
-        />
+        <div class="w-64 lg:w-96">
+            <el-input
+                v-model="searchInput"
+                size="large"
+                placeholder="Search"
+                :prefix-icon="Search"
+                @change="SearchPic"
+            />
+        </div>
     </div>
-    <div class="flex flex-col md:flex-row gap-y-2 mt-4 items-center justify-center">
+    <div
+        class="flex flex-col md:flex-row gap-y-2 mt-4 items-center justify-center"
+    >
         <span class="text-sm text-sky-600 mr-2">Mode of Copy</span>
         <el-radio-group v-model="copyProp" size="small">
             <el-radio-button
