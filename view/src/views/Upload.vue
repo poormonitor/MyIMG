@@ -72,8 +72,8 @@ const CopyClipboard = () => {
                             });
                             uploadRef.value.handleStart(file);
                             uploadRef.value.submit();
-                            return;
                         });
+                        return;
                     }
                 }
             }
