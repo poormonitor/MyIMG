@@ -9,6 +9,7 @@ greenlet==2.0.1
 h11==0.14.0
 idna==3.4
 minio==7.1.12
+mysql-connector==2.2.9
 passlib==1.7.4
 pyasn1==0.4.8
 pydantic==1.10.2
